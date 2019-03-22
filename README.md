@@ -6,7 +6,7 @@ Your goal is to create a RESTful service that can retrieve product and price det
 
 # Breaking it down
 
-##Step 1: Think about the problem space and business needs (15 minutes)
+## Step 1: Think about the problem space and business needs (15 minutes)
 
 - Observation: "myRetail has HQ and 200 stores on the east coast, but is growing fast" 
     - What is the rate of growth (how many new stores per month, traffic trends for .com/mobile)? 
@@ -34,9 +34,9 @@ Your goal is to create a RESTful service that can retrieve product and price det
     - Documentation, code samples, error handling, version management?
   
 
-##Step 2: Before diving in, do some quick searching/reading to learn from others (30 min)
+## Step 2: Before diving in, do some quick searching/reading to learn from others (30 min)
 
-##Step 3: Build a PoC (about 2 hours)
+## Step 3: Build a PoC (about 2 hours)
 
 - Build an application that performs the following actions:
 
@@ -48,5 +48,5 @@ Your goal is to create a RESTful service that can retrieve product and price det
     - Reads pricing information from a NoSQL data store and combines it with the product id and name from the HTTP request into a single response. 
     - BONUS: Accepts an HTTP PUT request at the same path (/products/{id}), containing a JSON request body similar to the GET response, and updates the product's price in the data store.
 
-##Step 4: Share and get feedback
+## Step 4: Share and get feedback
 - Prepare recommendations to make solution suitable for use in a production environment
