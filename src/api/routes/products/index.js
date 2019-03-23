@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer')
 
 module.exports = router => {
     
-    //get all 
+    //get all products
     router.get('/products', async (req, res) => {
         const products = await Product.find()
         res.send(products)
@@ -14,9 +14,11 @@ module.exports = router => {
     //get by product_id, pricing info from mongo & product info from redsky 
     //combine price info with product info
     router.get('/products/:id', async (req, res) => {
-        if (!req.params.id || !Number(req.params.id))
-            res.status(400).json(errors.bad_request)     
-        
+        if (!req.params.id || isNaN(req.params.id)) {
+            res.status(400).json(errors.bad_request).end()  
+            return;
+        }
+               
         const mongo_product = await Product.findOne({
             product_id: req.params.id
         })
@@ -35,44 +37,47 @@ module.exports = router => {
                 }     
             })
 
-        if (!redsky.data.product.item || !mongo_product)
-            res.status(404).json(errors.not_found)
-              
-        //const combined_data = {...mongo_product, ...redsky.data.product.item }
+        if (!redsky.data.product.item || !mongo_product) {
+            res.status(404).json(errors.not_found).end()
+            return;
+        }
+            
         var combined_data = {
-            id: redsky.data.product.item.tcin,
+            product_id: Number(redsky.data.product.item.tcin),
             name: redsky.data.product.item.product_description.title,
             current_price: mongo_product.current_price
         }
-
+        
         res.send(combined_data)      
     })
 
     //Update product price in mongo
     router.put('/products/:id', async (req, res) => {
-        if (!req.params.id || !Number(req.params.id) || !req.body.current_price || !Object(req.body.current_price))
-            res.status(400).json(errors.bad_request)     
-        
+        if (!req.params.id || isNaN(req.params.id) || !req.body.current_price || !Object(req.body.current_price)) {
+            res.status(400).json(errors.bad_request).end()  
+            return;
+        }
+            
         Product.findOneAndUpdate(
             {product_id: req.params.id},
             {$set: {current_price: req.body.current_price}},
-            {new: true},
-            (err, data) => {
-                if (!data) 
-                    res.status(404).json(errors.not_found) 
-                if (err)
-                    res.send(err)
-                
-                res.json(data)
+            {new: true}
+        ).then(data => {
+            if (data ==  null) {
+                res.status(404).json(errors.not_found)
+            } else {
+                res.send(data)
             }
-        );  
+        })
     })
 
     
     //Add product to mongo
     // router.post('/products', async (req, res) => {
-    //     if (!Number(req.body.product_id) || !Object(req.body.current_price) || !String(req.body.current_price.value) || !String(req.body.current_price.currency_code))
-    //         res.status(400).json(errors.bad_request)  
+    //     if (isNaN(req.body.product_id) || !Object(req.body.current_price) || !String(req.body.current_price.value) || !String(req.body.current_price.currency_code)) {
+    //         res.status(400).json(errors.bad_request).end()
+    //         return;
+    //     }      
 
     //     var newProduct = new Product(req.body);
     //     newProduct.save((err, result) => {
@@ -85,12 +90,16 @@ module.exports = router => {
 
     //Scrape movie data from Target
     router.get('/scrape/movies', async (req, res) => {
-
-        if (!req.query.page) 
-            res.send('Please specify a target PDP to scrape by appending a "page" parameter in the query string')
-            res.end();
+        
+        //expects a movie PDP like this https://www.target.com/p/shawshank-redemption-special-edition-dvd/-/A-11625643
+        if (!req.query.page) {
+            let error_msg = errors.bad_request
+            error_msg.details = 'Specify a target PDP to scrape by appending a page parameter in the query string'
+            res.status(400).json(error_msg).end()
+        }   
 
         const entryPoint = req.query.page
+        console.log('Scraper running...')
 
         const browser = await puppeteer.launch({
             headless: true,
@@ -106,46 +115,42 @@ module.exports = router => {
         const resultsSelector = '.filmstripItem > div > a';
         await page.waitForSelector(resultsSelector);
 
-        // Extract results from the page.
+        // Extract results from page
         const allItems = await page.evaluate(resultsSelector => {
             const anchors = Array.from(document.querySelectorAll(resultsSelector));
+            var pIDs = []
             return anchors.map(anchor => {
                 const product_id = anchor.getAttribute('data-product-id').trim()
                 const price = anchor.getAttribute('saleprice').toString()
-                let data = {
-                    current_price: {
-                        value: price,
-                        currency_code: "USD"
-                    },
-                    product_id: product_id
+
+                if (!pIDs.includes(product_id)) {
+                    pIDs.push(product_id)
+                    let data = {
+                        current_price: {
+                            value: price,
+                            currency_code: "USD"
+                        },
+                        product_id: product_id
+                    }
+                    return data;
                 }
-                return data;
             });
         }, resultsSelector);
 
+        var uniqueProducts = allItems.filter(e => { return e != null })
+
         //save to database
-        await allItems.forEach(product => {
-            let newProduct = new Product(product);
-    
-            try {
-                newProduct.save((err, result) => {
-                    if (err && err.code == 11000) {
-                        console.log(`${product.product_id} already exists`);
-                    } else if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(`${product.product_id} saved!`);
-                    }
-                })
-            } catch(err) {
-                console.log(err);
-            }
-            
-        })
-
-        res.send('scraping complete!');
-
-        await browser.close();
+        Product.insertMany(uniqueProducts)
+            .then(result => {
+                console.error(`Scraper done`)
+                console.log(`Successfully inserted items`)
+                browser.close()
+                return res.json({done: true})
+            })
+            .catch(err => {
+                console.error(`Failed to insert: ${err}`)
+                browser.close()
+                return res.json({done: true})
+            })  
     })
-
 }
