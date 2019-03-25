@@ -14,25 +14,25 @@ Your goal is to create a RESTful service that can retrieve product and price det
     - What is myRetail's rate of growth (how many new stores per month)? 
     - Look at past 8 quarters of metrics (sales volume, transaction count, customer count, traffic trends, etc) 
     - Understand plans for expansion (US and OUS)  
-    - Understand competitive landscape and how are competitors investing in apps/services/data 
-    - Understand current growth initiatives and any operational challenges that could hinder growth   
+    - Understand competitive landscape, how are direct competitors investing in apps/services/data 
+    - Understand current growth initiatives and any operational challenges hindering growth   
 
 - Observation: "myRetail wants to make its internal data available" 
     - Public API or restricted? 
     - Describe the nature of internal data to be made accessible 
     - Understand the data sources: Type of storage infrastructure, where is it located, how it is maintained and by whom, DB technologies used, optimized for performance, scalability and high availability? 
     - Privacy assessment? How is the data classified and what is the risk PII exposure/misuse? 
-    - Understand security architecture and whether myRetail has any compliance requirements that could be compromised by internal data exposure 
+    - Understand security architecture and myRetail compliance requirements
     - Understand data management, flows, permissions model and how other systems interop today 
     - Rate of new products being added/updated? 
-    - Plans for dynamic pricing by region/store/user etc?
+    - Plans for dynamic pricing strategies across region/store/user
 
 - Observation: “any number of client devices" 
     - What are the common data usage patterns across client apps? 
     - Data priority, what fields are most important and why? 
     - How is language localization being handled?
-    - Options for optimizing payload, response times, etc?
-    - Plans for API consumption tracking/metering? 
+    - Options for optimizing payload, response times, etc
+    - Plans for API consumption tracking/metering 
     - Documentation, code samples, error handling, version management?
   
 
@@ -46,11 +46,11 @@ Your goal is to create a RESTful service that can retrieve product and price det
 - https://tryolabs.com/blog/price-optimization-machine-learning/
 - http://blmm-conference.com/wp-content/uploads/blimm1608.pdf
 
-Machine learning techniques are used by retailers to optimize product pricing strategies.  Predictive models are helping retailers A) understand how customers will react to different pricing and B) develop pricing strategies that align with overall company objectives. As myRetail scales, the company should invest in capabilities that will help the company implement stong pricing strategies across all stores and digital properties.
+Retailers use Machine learning techniques to optimize product pricing.  Predictive models are helping retailers A) understand how customers will react to different pricing and B) develop pricing strategies that align with overall company objectives. As myRetail scales, the company consider capabilities that will strengthen pricing strategies across all stores and digital properties.
 
 ### REST or GraphQL? 
 
-It's still early days for GraphQL. It has big benefits like: server driven, less chatty, more client friendly than traditional REST.  However, GQL is a bit immature.  I would encourage others to explore GraphQL and keep an eye on it, but don’t think it’s the right thing for myRetail as they look to scale. 
+Though it's early days for GraphQL, I see big benefits like: server driven, less chatty, more client friendly than traditional REST.  However, GQL is a bit immature.  I would encourage others to explore GraphQL and keep an eye on it, but don’t think it’s the right thing for myRetail as they look to scale. 
 
 **Rationale:** 
 
@@ -84,7 +84,7 @@ It's still early days for GraphQL. It has big benefits like: server driven, less
 
 *Tech*
 - Node/Express/Mocha/Chai
-- MongoAtlas (hosted DB)
+- MongoDB Atlas (hosted)
 - Swagger docs
 
 ##View hosted solution on Heroku[https://myretailapi.herokuapp.com/]
@@ -94,7 +94,7 @@ Or to run locally,
 *Prerequisites*
 - node 9.5.x
 - npm 6.4.x
-- MongoDB connection string 
+- MongoDB Atlas connection string 
 
 *Download & Install*
 ~~~~
@@ -104,7 +104,7 @@ npm install
 ~~~~
 
 *Create .env file in root and populate environment variables*
-NOTE: Connection string for prod mongoDB and test mongoDB are both required
+NOTE: Connection string for prod mongo and test mongo are both required
 ~~~~
 MONGO_HOST={{MONGO_CONNECTION_STRING_FOR_YOUR_PRODUCTION_DB}}
 MONGO_HOST_TEST={{MONGO_CONNECTION_STRING_FOR_YOUR_TEST_DB}}
@@ -142,10 +142,10 @@ http://localhost:3000
 - Highest recommendation: spend time understanding the business needs and contraints before racing to production.  Align with business partners on an implementation strategy that can scale with rest of the business and evolve to meet changing needs.
 - Leverage caching to promote fast response times
 - Improve tests and increase code coverage
-- Front-end with an API gateway to house documentation and handle traffic, logging, auth, etc 
+- Set up API gateway for documentation, traffic management, logging, auth, etc 
 - Require client applications to have a proper token to access resources
 - Use mongoDB cluster with continuous backups
-- Connect to a build pipeline, spin up ephemeral environments that run automated tests and promote to staging
-- Deploy to load balanced production environment that can scale up and down based on traffic
+- Connect to a build pipeline, spin up ephemeral environments that run automated tests and promote to staging/prod
+- Deploy to load balanced production environment that can scale up and down based on demand
 
 
