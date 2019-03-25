@@ -13,6 +13,11 @@ module.exports = router => {
         const mongo_products = await Product.find()
         var product_ids = mongo_products.map(p => p.product_id)
 
+        if (!mongo_products) {
+            res.status(404).json(errors.not_found).end()
+            return;
+        }
+
         //get all product info from redsky for those products
         const redsky = await axios
             .get(`${process.env.REDSKY_URL}/${product_ids.join(',')}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics`)

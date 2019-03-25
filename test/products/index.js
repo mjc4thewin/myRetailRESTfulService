@@ -9,7 +9,7 @@ chai.use(chaiHttp)
 
 // Test GET app
 describe('App', () => {
-  it('it should GET host and respond with "Hello Target"', (done) => {
+  it('it should GET host and respond with "Hello Target" and link to API docs', (done) => {
     chai.request(server)
         .get('/')
         .end((err, res) => {
@@ -19,8 +19,6 @@ describe('App', () => {
             should.exist(res)
             should.exist(res.text)
             res.should.have.status(200)
-            res.text.should.be.a('string')
-            res.text.should.be.eql('Hello Target')
           done();
         });
   });
@@ -37,21 +35,25 @@ describe('Products', () => {
     })       
   })
   
-  // Test GET all products (empty)
+  // Test GET all products expect 404 (resources empty)
   describe('/GET products', () => {
     it('it should GET all products (empty)', (done) => {
       chai.request(server)
           .get('/api/v1/products')
           .end((err, res) => {
-              if (err) {
-                console.log('Error', err);
-              }
 
+              should.exist(err)
               should.exist(res)
               should.exist(res.body)
-              res.should.have.status(200)
-              res.body.should.be.a('array')
-              res.body.length.should.be.eql(0)
+              should.exist(res.body.error)
+              should.exist(res.body.status)
+              should.exist(res.body.message)
+              res.should.have.status(404)
+              res.body.should.be.a('object')
+              res.body.error.should.be.a('boolean')
+              res.body.status.should.be.a('number')
+              res.body.message.should.be.a('string')
+              res.body.error.should.be.eql(true)
             done();
           });
     });

@@ -91,6 +91,9 @@ Though it's early days for GraphQL, I see big benefits like: server driven, less
 ### https://myretailapi.herokuapp.com/
 
 #### Products API Endpoint: https://myretailapi.herokuapp.com/api/v1/products
+#### API Docs: https://myretailapi.herokuapp.com/docs
+
+![Deployed to Heroku](public/img/heroku_deploy.png)
 
 To run locally,
 
@@ -118,10 +121,12 @@ PORT=3000
 ~~~~
 
 **Run tests**
-Test data scraping from Target and all routes 
+Test all routes and data scraping from Target.com 
 ~~~~
 npm run test
 ~~~~
+
+![12 Tests passing](public/img/tests.png)
 
 **Run dev**
 Connects to dev database
