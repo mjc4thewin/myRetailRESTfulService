@@ -90,6 +90,8 @@ Though it's early days for GraphQL, I see big benefits like: server driven, less
 ### Hosted solution on Heroku:
 ### https://myretailapi.herokuapp.com/
 
+#### Products API Endpoint: https://myretailapi.herokuapp.com/api/v1/products
+
 To run locally,
 
 **Prerequisites**
