@@ -1,6 +1,9 @@
 {
   "name": "myRetailRESTfulService",
   "version": "1.0.0",
+  "engines": {
+    "node": "9.5.0"
+  },
   "description": "A product API",
   "main": "server.js",
   "author": "Michael Jordan",
