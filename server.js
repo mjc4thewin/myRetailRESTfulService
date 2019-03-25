@@ -20,6 +20,10 @@ var startServer = async () => {
 
     server.use('/api/v1', routes)
 
+    server.get('/docs', (req, res) => {
+        res.sendFile(path.join(__dirname, './public', 'docs.html'))
+    })
+
     server.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname, './public', 'index.html'))
     })

@@ -1,3 +1,5 @@
+# myRetail 
+
 myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 stores across the east coast. myRetail wants to make its internal data available to any number of client devices, from myRetail.com to native mobile apps.
 
 The goal for this exercise is to create an end-to-end Proof-of-Concept for a products API, which will aggregate product data from multiple sources and return it as JSON to the caller.
@@ -6,15 +8,14 @@ Your goal is to create a RESTful service that can retrieve product and price det
 
 # Breaking it down
 
-## Step 1: Think about the problem space and business needs (15 minutes)
+## Step 1: Think broadly about the problem space and business needs
 
 - Observation: "myRetail has HQ and 200 stores on the east coast, but is growing fast" 
-    - What is the rate of growth (how many new stores per month, traffic trends for .com/mobile)? 
-    - Can I see past 8 quarters of revenue segmented by stores, .com, mobile, etc? 
-    - Understand plans for expansion (both US and OUS)?  
-    - Understand competitive landscape and how are competitors investing in apps/services/data/etc 
-    - Understand challenges to business operations that could hinder growth 
-    - Understand current growth initiatives 
+    - What is myRetail's rate of growth (how many new stores per month)? 
+    - Look at past 8 quarters of metrics (sales volume, transaction count, customer count, traffic trends, etc) 
+    - Understand plans for expansion (US and OUS)  
+    - Understand competitive landscape and how are competitors investing in apps/services/data 
+    - Understand current growth initiatives and any operational challenges that could hinder growth   
 
 - Observation: "myRetail wants to make its internal data available" 
     - Public API or restricted? 
@@ -24,17 +25,28 @@ Your goal is to create a RESTful service that can retrieve product and price det
     - Understand security architecture and whether myRetail has any compliance requirements that could be compromised by internal data exposure 
     - Understand data management, flows, permissions model and how other systems interop today 
     - Rate of new products being added/updated? 
-    - Is myRetail anticipating a need for language localization, dynamic pricing, etc? 
-    - API consumption tracking/metering? 
+    - Plans for dynamic pricing by region/store/user etc?
 
 - Observation: “any number of client devices" 
-    - What are the common usage patterns among client apps? 
-    - Field priority, what data is most important? 
-    - Best options for optimizing payload, response times, etc?
+    - What are the common data usage patterns across client apps? 
+    - Data priority, what fields are most important and why? 
+    - How is language localization being handled?
+    - Options for optimizing payload, response times, etc?
+    - Plans for API consumption tracking/metering? 
     - Documentation, code samples, error handling, version management?
   
 
-## Step 2: Before diving in, do some quick searching/reading to learn from others (30 min)
+## Step 2: Before diving in, do some quick reading to learn from others
+
+### Innovation in dynamic pricing and AI-based price optimization 
+
+"Pricing is becoming intelligent and continually adjusting to changing consumer behaviour and demand preferences, while also responding to organisational inventory and marketing requirements as well as other external pricing influences."
+
+- https://medium.com/@RemiStudios/artificial-intelligence-for-dynamic-pricing-326c3b88a37
+- https://tryolabs.com/blog/price-optimization-machine-learning/
+- http://blmm-conference.com/wp-content/uploads/blimm1608.pdf
+
+Machine learning techniques are used by retailers to optimize product pricing strategies.  Predictive models are helping retailers A) understand how customers will react to different pricing and B) develop pricing strategies that align with overall company objectives. As myRetail scales, the company should invest in capabilities that will help the company implement stong pricing strategies across all stores and digital properties.
 
 ### REST or GraphQL? 
 
@@ -47,22 +59,93 @@ It's still early days for GraphQL. It has big benefits like: server driven, less
 - Love the idea of single endpoint and dropping API versioning in the resource path, but it’s harder to establish backwards compatibility and leaves caching up to the developer to implement which is not ideal
 - No great options for monitoring :(
 
-### Look at other examples of the myRetail problem
+### Look at other examples of the myRetail on GitHub
 - https://github.com/LBenotsch/myretail-restful-service
 - https://libraries.io/github/lenzenc/myretail
+- https://github.com/rohitdec01/myRetail
+- https://github.com/GauravKarale/myRetail
+- https://github.com/shubaajad/myretail
+- https://github.com/stevebargelt/myRetail
 
 
-## Step 3: Build a PoC (about 2 hours)
+## Step 3: Build a proof of concept
 
-- Build an application that performs the following actions:
+### Build an application that performs the following actions
 
-    - Responds to an HTTP GET request at /products/{id} and delivers product data as JSON (where {id} will be a number.
-    - Example product IDs: 15117729, 16483589, 16696652, 16752456, 15643793)
-    - Example response: {"id":13860428,"name":"The Big Lebowski (Blu-ray) (Widescreen)","current_price":{"value": 13.49,"currency_code":"USD"}}
-    - Performs an HTTP GET to retrieve the product name from an external API. (For this exercise the data will come from redsky.target.com, but let's just pretend this is an internal resource hosted by myRetail) 
-    - Example: <http://redsky.target.com/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics>
-    - Reads pricing information from a NoSQL data store and combines it with the product id and name from the HTTP request into a single response.
-    - BONUS: Accepts an HTTP PUT request at the same path (/products/{id}), containing a JSON request body similar to the GET response, and updates the product's price in the data store.
+- Responds to an HTTP GET request at /products/{id} and delivers product data as JSON (where {id} will be a number.
+- Example product IDs: 15117729, 16483589, 16696652, 16752456, 15643793)
+- Example response: {"id":13860428,"name":"The Big Lebowski (Blu-ray) (Widescreen)","current_price":{"value": 13.49,"currency_code":"USD"}}
+- Performs an HTTP GET to retrieve the product name from an external API. (For this exercise the data will come from redsky.target.com, but let's just pretend this is an internal resource hosted by myRetail) 
+- Example: <http://redsky.target.com/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics>
+- Reads pricing information from a NoSQL data store and combines it with the product id and name from the HTTP request into a single response.
+- BONUS: Accepts an HTTP PUT request at the same path (/products/{id}), containing a JSON request body similar to the GET response, and updates the product's price in the data store.
 
-## Step 4: Share and get feedback
-- Prepare recommendations to make solution suitable for use in a production environment
+### My PoC
+
+*Tech*
+- Node/Express/Mocha/Chai
+- MongoAtlas (hosted DB)
+- Swagger docs
+
+##View hosted solution on Heroku[https://myretailapi.herokuapp.com/]
+
+Or to run locally,
+
+*Prerequisites*
+- node 9.5.x
+- npm 6.4.x
+- MongoDB connection string 
+
+*Download & Install*
+~~~~
+git clone https://github.com/zRealMikeJordan/myRetailRESTfulService.git
+cd myRetailRESTfulService
+npm install
+~~~~
+
+*Create .env file in root and populate environment variables*
+NOTE: Connection string for prod mongoDB and test mongoDB are both required
+~~~~
+MONGO_HOST={{MONGO_CONNECTION_STRING_FOR_YOUR_PRODUCTION_DB}}
+MONGO_HOST_TEST={{MONGO_CONNECTION_STRING_FOR_YOUR_TEST_DB}}
+TARGET_PDP_SCRAPE_TEST_URL=https://www.target.com/p/shawshank-redemption-special-edition-dvd/-/A-11625643
+REDSKY_URL=http://redsky.target.com/v2/pdp/tcin
+API_HOST=http://localhost
+PORT=3000
+~~~~
+
+*Run tests*
+Test data scraping from Target and all routes 
+~~~~
+npm run test
+~~~~
+
+*Run dev*
+Connects to dev database
+~~~~
+npm run dev
+~~~~
+
+*Run prod*
+Connects to prod database
+~~~~
+npm run start
+~~~~
+
+Open app
+~~~~
+http://localhost:3000
+~~~~
+
+## Step 4: Recommendations for use in a production environment
+
+- Highest recommendation: spend time understanding the business needs and contraints before racing to production.  Align with business partners on an implementation strategy that can scale with rest of the business and evolve to meet changing needs.
+- Leverage caching to promote fast response times
+- Improve tests and increase code coverage
+- Front-end with an API gateway to house documentation and handle traffic, logging, auth, etc 
+- Require client applications to have a proper token to access resources
+- Use mongoDB cluster with continuous backups
+- Connect to a build pipeline, spin up ephemeral environments that run automated tests and promote to staging
+- Deploy to load balanced production environment that can scale up and down based on traffic
+
+
