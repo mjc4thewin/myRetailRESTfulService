@@ -87,23 +87,24 @@ Though it's early days for GraphQL, I see big benefits like: server driven, less
 - MongoDB Atlas (hosted)
 - Swagger docs
 
-##View hosted solution on Heroku[https://myretailapi.herokuapp.com/]
+### Hosted solution on Heroku:
+### https://myretailapi.herokuapp.com/
 
-Or to run locally,
+To run locally,
 
-*Prerequisites*
+**Prerequisites**
 - node 9.5.x
 - npm 6.4.x
 - MongoDB Atlas connection string 
 
-*Download & Install*
+**Download & Install**
 ~~~~
 git clone https://github.com/zRealMikeJordan/myRetailRESTfulService.git
 cd myRetailRESTfulService
 npm install
 ~~~~
 
-*Create .env file in root and populate environment variables*
+**Create .env file in root and populate environment variables**
 NOTE: Connection string for prod mongo and test mongo are both required
 ~~~~
 MONGO_HOST={{MONGO_CONNECTION_STRING_FOR_YOUR_PRODUCTION_DB}}
@@ -114,25 +115,25 @@ API_HOST=http://localhost
 PORT=3000
 ~~~~
 
-*Run tests*
+**Run tests**
 Test data scraping from Target and all routes 
 ~~~~
 npm run test
 ~~~~
 
-*Run dev*
+**Run dev**
 Connects to dev database
 ~~~~
 npm run dev
 ~~~~
 
-*Run prod*
+**Run prod**
 Connects to prod database
 ~~~~
 npm run start
 ~~~~
 
-Open app
+**Open app**
 ~~~~
 http://localhost:3000
 ~~~~
