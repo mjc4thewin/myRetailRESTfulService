@@ -59,6 +59,8 @@ Though it's early days for GraphQL, I see big benefits like: server driven, less
 - Love the idea of single endpoint and dropping API versioning in the resource path, but it’s harder to establish backwards compatibility and leaves caching up to the developer to implement which is not ideal
 - No great options for monitoring :(
 
+![REST vs GraphQL](public/img/graphql.png)
+
 ### Look at other examples of the myRetail on GitHub
 - https://github.com/LBenotsch/myretail-restful-service
 - https://libraries.io/github/lenzenc/myretail
