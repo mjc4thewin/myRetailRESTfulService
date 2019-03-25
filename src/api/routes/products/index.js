@@ -154,6 +154,7 @@ module.exports = router => {
             headless: true,
             //slowMo: 100,
             //args: ['--start-fullscreen']
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
         const page = await browser.newPage();
