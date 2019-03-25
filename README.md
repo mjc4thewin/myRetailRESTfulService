@@ -46,11 +46,11 @@ Your goal is to create a RESTful service that can retrieve product and price det
 - https://tryolabs.com/blog/price-optimization-machine-learning/
 - http://blmm-conference.com/wp-content/uploads/blimm1608.pdf
 
-Retailers use Machine learning techniques to optimize product pricing.  Predictive models are helping retailers A) understand how customers will react to different pricing and B) develop pricing strategies that align with overall company objectives. As myRetail scales, the company consider capabilities that will strengthen pricing strategies across all stores and digital properties.
+Retailers use Machine learning techniques to optimize product pricing.  Predictive models are helping retailers A) understand how customers will react to different pricing and B) develop pricing strategies that align with overall company objectives. As myRetail scales, the company should consider capabilities that strengthen pricing strategies across all stores and digital properties.
 
 ### REST or GraphQL? 
 
-Though it's early days for GraphQL, I see big benefits like: server driven, less chatty, more client friendly than traditional REST.  However, GQL is a bit immature.  I would encourage others to explore GraphQL and keep an eye on it, but don’t think it’s the right thing for myRetail as they look to scale. 
+Though it's early days for GraphQL, I see big benefits like: server driven, less chatty, more client friendly than traditional REST.  However, GQL is a bit immature.  I would encourage exploration and keeping an eye on it, but don’t think it’s the right thing for myRetail right now as they scale. https://www.moesif.com/blog/technical/graphql/REST-vs-GraphQL-APIs-the-good-the-bad-the-ugly/#
 
 **Rationale:** 
 
