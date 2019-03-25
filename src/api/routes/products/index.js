@@ -190,7 +190,9 @@ module.exports = router => {
         var uniqueProducts = allItems.filter(e => { return e != null })
 
         //save to database
-        Product.insertMany(uniqueProducts)
+        Product.insertMany(
+            uniqueProducts,
+            { ordered: false })
             .then(result => {
                 console.error(`Scraper done`)
                 console.log(`Successfully inserted items`)
