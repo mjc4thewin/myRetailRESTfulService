@@ -171,10 +171,14 @@ module.exports = router => {
             const anchors = Array.from(document.querySelectorAll(resultsSelector));
             var pIDs = []
             return anchors.map(anchor => {
+                if (!anchor.getAttribute('saleprice') || !anchor.getAttribute('data-product-id')) {
+                    return null
+                }
+
                 const product_id = anchor.getAttribute('data-product-id').trim()
                 const price = anchor.getAttribute('saleprice').toString()
 
-                if (!pIDs.includes(product_id)) {
+                if (price && product_id && !pIDs.includes(product_id)) {
                     pIDs.push(product_id)
                     let data = {
                         current_price: {
