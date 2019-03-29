@@ -1,3 +1,4 @@
+"use strict";
 const Product = require('../../src/api/models/Product')
 const server = require('../../server')
 

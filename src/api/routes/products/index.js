@@ -1,3 +1,4 @@
+"use strict";
 const Product = require('../../models/Product')
 const errors = require('../errors')
 const axios = require('axios')
@@ -194,8 +195,10 @@ module.exports = router => {
             uniqueProducts,
             { ordered: false })
             .then(result => {
-                console.error(`Scraper done`)
-                console.log(`Successfully inserted items`)
+                if (result) {
+                    console.error(`Scraper done`)
+                    console.log(`Successfully inserted items`)
+                }
                 browser.close()
                 return res.json({done: true})
             })

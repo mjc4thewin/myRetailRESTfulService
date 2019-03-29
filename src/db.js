@@ -1,7 +1,8 @@
+"use strict";
 const mongoose = require('mongoose')
 require('dotenv').config({silent: true})
 
-connectToDb = async () => {
+const connectToDb = async () => {
     const connection_string = (process.env.NODE_ENV === 'test') ? process.env.MONGO_HOST_TEST : process.env.MONGO_HOST
 
     await mongoose.connect(connection_string, {
@@ -15,6 +16,4 @@ connectToDb = async () => {
     })
 } 
 
-var db = connectToDb()
-
-module.exports = db
+module.exports = connectToDb()
