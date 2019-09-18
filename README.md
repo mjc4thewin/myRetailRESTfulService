@@ -89,11 +89,6 @@ Though it's early days for GraphQL, I see big benefits like: server driven, less
 - MongoDB Atlas (hosted)
 - Swagger docs
 
-### Hosted solution on Heroku:
-### https://myretailapi.herokuapp.com/
-
-#### Products API Endpoint: https://myretailapi.herokuapp.com/api/v1/products
-#### API Docs: https://myretailapi.herokuapp.com/docs
 
 ![Deployed to Heroku](public/img/heroku_deploy.png)
 
